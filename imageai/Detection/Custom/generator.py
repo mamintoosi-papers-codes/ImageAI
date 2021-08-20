@@ -156,6 +156,7 @@ class BatchGenerator(Sequence):
         return self.net_h, self.net_w
     
     def _aug_image(self, instance, net_h, net_w):
+        print('Augmentation .....')
         image_name = instance['filename']
         image = cv2.imread(image_name)  # BGR image
         
