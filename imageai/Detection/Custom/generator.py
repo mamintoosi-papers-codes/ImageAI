@@ -72,7 +72,7 @@ class BatchGenerator(Sequence):
         # do the logic to fill in the inputs and the output
         for train_instance in self.instances[l_bound:r_bound]:
             # augment input image and fix object's position and size
-            print('aug in train_instance:', self.aug)
+            # print('aug in train_instance:', self.aug)
             img, all_objs = self._aug_image(train_instance, net_h, net_w)
             
             for obj in all_objs:
