@@ -120,7 +120,7 @@ class ObjectDetection:
             self.modelPath = model_path
             self.__modelPathAdded = True
 
-    def loadModel(self, detection_speed="fast"):
+    def loadModel(self, detection_speed="normal"):
         """
                 'loadModel()' function is required and is used to load the model structure into the program from the file path defined
                 in the setModelPath() function. This function receives an optional value which is "detection_speed".

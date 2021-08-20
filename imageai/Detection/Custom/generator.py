@@ -32,8 +32,8 @@ class BatchGenerator(Sequence):
         self.aug                = aug
         self.norm               = norm
         self.anchors            = [BoundBox(0, 0, anchors[2*i], anchors[2*i+1]) for i in range(len(anchors)//2)]
-        self.net_h              = 416  
-        self.net_w              = 416
+        self.net_h              = 208#416  M.Amintoosi
+        self.net_w              = 208#416
 
         if shuffle: np.random.shuffle(self.instances)
             
@@ -193,9 +193,9 @@ class BatchGenerator(Sequence):
         # apply scaling and cropping
         im_sized = apply_random_scale_and_crop(image, new_w, new_h, net_w, net_h, dx, dy)
         
-        if self.aug == True:
-            # randomly distort hsv space
-            im_sized = random_distort_image(im_sized)
+        # if self.aug == True:
+        #     # randomly distort hsv space
+        #     im_sized = random_distort_image(im_sized)
         
         if self.aug == True:
             # randomly flip
