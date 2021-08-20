@@ -77,7 +77,7 @@ class DetectionModelTrainer:
         """
         self.__model_type = "yolov3"
 
-    def setDataDirectory(self, data_directory):
+    def setDataDirectory(self, data_directory, augmentation = True):
 
         """
 
@@ -122,6 +122,8 @@ class DetectionModelTrainer:
         self.__train_cache_file = os.path.join(data_directory, "cache", "detection_train_data.pkl")
         self.__validation_cache_file = os.path.join(data_directory, "cache", "detection_test_data.pkl")
 
+        if augmentation == True:
+            data_directory += '_augT'
         os.makedirs(os.path.join(data_directory, "models"), exist_ok=True)
 
         os.makedirs(os.path.join(data_directory, "json"), exist_ok=True)
