@@ -32,8 +32,8 @@ class BatchGenerator(Sequence):
         self.aug                = aug
         self.norm               = norm
         self.anchors            = [BoundBox(0, 0, anchors[2*i], anchors[2*i+1]) for i in range(len(anchors)//2)]
-        self.net_h              = 208#416  M.Amintoosi
-        self.net_w              = 208#416
+        self.net_h              = 416  
+        self.net_w              = 416
 
         if shuffle: np.random.shuffle(self.instances)
             
