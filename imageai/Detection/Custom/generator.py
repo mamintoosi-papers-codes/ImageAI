@@ -201,6 +201,8 @@ class BatchGenerator(Sequence):
             # randomly flip
             flip = np.random.randint(2)
             im_sized = random_flip(im_sized, flip)
+        else:
+            flip = 0
             
         # correct the size and pos of bounding boxes
         all_objs = correct_bounding_boxes(instance['object'], new_w, new_h, net_w, net_h, dx, dy, flip, image_w, image_h)
