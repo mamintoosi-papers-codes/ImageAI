@@ -17,6 +17,7 @@ class BatchGenerator(Sequence):
         max_net_size=608,    
         shuffle=True, 
         jitter=True, 
+        aug = True,
         norm=None
     ):
         self.instances          = instances
@@ -28,6 +29,7 @@ class BatchGenerator(Sequence):
         self.max_net_size       = (max_net_size//self.downsample)*self.downsample
         self.shuffle            = shuffle
         self.jitter             = jitter
+        self.aug                = aug
         self.norm               = norm
         self.anchors            = [BoundBox(0, 0, anchors[2*i], anchors[2*i+1]) for i in range(len(anchors)//2)]
         self.net_h              = 416  
@@ -70,6 +72,7 @@ class BatchGenerator(Sequence):
         # do the logic to fill in the inputs and the output
         for train_instance in self.instances[l_bound:r_bound]:
             # augment input image and fix object's position and size
+            print('aug in train_instance:', self.aug)
             img, all_objs = self._aug_image(train_instance, net_h, net_w)
             
             for obj in all_objs:
@@ -156,7 +159,7 @@ class BatchGenerator(Sequence):
         return self.net_h, self.net_w
     
     def _aug_image(self, instance, net_h, net_w):
-        print('Augmentation .....')
+
         image_name = instance['filename']
         image = cv2.imread(image_name)  # BGR image
         
@@ -172,7 +175,10 @@ class BatchGenerator(Sequence):
         dh = self.jitter * image_h
 
         new_ar = (image_w + np.random.uniform(-dw, dw)) / (image_h + np.random.uniform(-dh, dh))
-        scale = np.random.uniform(0.25, 2)
+        if self.aug == True:
+            scale = np.random.uniform(0.25, 2)
+        else:
+            scale = 1
 
         if new_ar < 1:
             new_h = int(scale * net_h)
@@ -187,12 +193,14 @@ class BatchGenerator(Sequence):
         # apply scaling and cropping
         im_sized = apply_random_scale_and_crop(image, new_w, new_h, net_w, net_h, dx, dy)
         
-        # randomly distort hsv space
-        im_sized = random_distort_image(im_sized)
+        if self.aug == True:
+            # randomly distort hsv space
+            im_sized = random_distort_image(im_sized)
         
-        # randomly flip
-        flip = np.random.randint(2)
-        im_sized = random_flip(im_sized, flip)
+        if self.aug == True:
+            # randomly flip
+            flip = np.random.randint(2)
+            im_sized = random_flip(im_sized, flip)
             
         # correct the size and pos of bounding boxes
         all_objs = correct_bounding_boxes(instance['object'], new_w, new_h, net_w, net_h, dx, dy, flip, image_w, image_h)

@@ -237,7 +237,6 @@ def create_generators(args, preprocess_image):
 
     # create random transform generator for augmenting training data
     if args.random_transform:
-        # print('Using Random Tranformation...')
         transform_generator = random_transform_generator(
             min_rotation=-0.1,
             max_rotation=0.1,
@@ -257,7 +256,6 @@ def create_generators(args, preprocess_image):
             saturation_range=(0.95, 1.05)
         )
     else:
-        # print('Only flip  Tranformation...')
         transform_generator = random_transform_generator(flip_x_chance=0.5)
         visual_effect_generator = None
 

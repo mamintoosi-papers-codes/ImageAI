@@ -67,6 +67,8 @@ class DetectionModelTrainer:
         self.__validation_cache_file = ""
         self.__validation_times = 1
 
+        self.__augmentation = True
+
     def setModelTypeAsYOLOv3(self):
         """
         'setModelTypeAsYOLOv3()' is used to set the model type to the YOLOv3 model
@@ -149,7 +151,8 @@ class DetectionModelTrainer:
         # let it as a string separated by commas
         self.__train_gpus = ','.join([str(gpu) for gpu in train_gpus])
 
-    def setTrainConfig(self,  object_names_array, batch_size=4, num_experiments=100, train_from_pretrained_model=""):
+    def setTrainConfig(self,  object_names_array, batch_size=4, num_experiments=100,\
+         train_from_pretrained_model="", augmentation = True):
 
         """
 
@@ -184,6 +187,8 @@ class DetectionModelTrainer:
         self.__train_batch_size = batch_size
         self.__train_epochs = num_experiments
         self.__pre_trained_model = train_from_pretrained_model
+
+        self.__augmentation = augmentation
 
         json_data = dict()
         json_data["labels"] = self.__model_labels
@@ -239,6 +244,7 @@ class DetectionModelTrainer:
             max_net_size=self.__model_max_input_size,
             shuffle=True,
             jitter=0.3,
+            aug = self.__augmentation,
             norm=normalize
         )
 
