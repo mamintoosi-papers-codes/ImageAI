@@ -175,7 +175,7 @@ class BatchGenerator(Sequence):
         dh = self.jitter * image_h
 
         new_ar = (image_w + np.random.uniform(-dw, dw)) / (image_h + np.random.uniform(-dh, dh))
-        if self.aug == 'scale' and np.random()<0.3:
+        if self.aug == 'scale' and np.random.random_sample()<0.3:
             scale = np.random.uniform(0.25, 2)
         else:
             scale = 1
@@ -197,7 +197,7 @@ class BatchGenerator(Sequence):
         #     # randomly distort hsv space
         #     im_sized = random_distort_image(im_sized)
         
-        if self.aug == 'filp' and np.random()<0.3:
+        if self.aug == 'filp' and np.random.random_sample()<0.3:
             # randomly flip
             flip = np.random.randint(2)
             im_sized = random_flip(im_sized, flip)
