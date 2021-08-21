@@ -67,7 +67,7 @@ class DetectionModelTrainer:
         self.__validation_cache_file = ""
         self.__validation_times = 1
 
-        self.__augmentation = True
+        self.__augmentation = 'none'
 
     def setModelTypeAsYOLOv3(self):
         """
@@ -77,7 +77,7 @@ class DetectionModelTrainer:
         """
         self.__model_type = "yolov3"
 
-    def setDataDirectory(self, data_directory, augmentation = True):
+    def setDataDirectory(self, data_directory, augmentation = 'none'):
 
         """
 
@@ -122,8 +122,8 @@ class DetectionModelTrainer:
         self.__train_cache_file = os.path.join(data_directory, "cache", "detection_train_data.pkl")
         self.__validation_cache_file = os.path.join(data_directory, "cache", "detection_test_data.pkl")
 
-        if augmentation == True:
-            data_directory += '_augT'
+        if augmentation != 'none':
+            data_directory += '_aug'+augmentation
         os.makedirs(os.path.join(data_directory, "models"), exist_ok=True)
 
         os.makedirs(os.path.join(data_directory, "json"), exist_ok=True)
@@ -154,7 +154,7 @@ class DetectionModelTrainer:
         self.__train_gpus = ','.join([str(gpu) for gpu in train_gpus])
 
     def setTrainConfig(self,  object_names_array, batch_size=4, num_experiments=100,\
-         train_from_pretrained_model="", augmentation = True):
+         train_from_pretrained_model="", augmentation = 'none'):
 
         """
 
