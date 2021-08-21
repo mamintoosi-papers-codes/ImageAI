@@ -122,8 +122,9 @@ class DetectionModelTrainer:
         self.__train_cache_file = os.path.join(data_directory, "cache", "detection_train_data.pkl")
         self.__validation_cache_file = os.path.join(data_directory, "cache", "detection_test_data.pkl")
 
-        if augmentation != 'none':
-            data_directory += '_aug'+augmentation
+        # if augmentation != 'none':
+        data_directory += '_aug-'+augmentation
+        
         os.makedirs(os.path.join(data_directory, "models"), exist_ok=True)
 
         os.makedirs(os.path.join(data_directory, "json"), exist_ok=True)
